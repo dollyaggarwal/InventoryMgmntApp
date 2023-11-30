@@ -38,11 +38,13 @@ server.get('/login', usersController.getLogin);
 
 server.post('/login', usersController.postLogin);
 
+server.get('/logout', usersController.logout);
+
 server.post('/register', usersController.postRegister);
 
 server.get('/', auth, productController.getProducts);
 
-server.get('/new',auth, productController.getAddForm);
+server.get('/new',auth, productController.getAddProduct);
 
 server.post('/',auth, uploadFile.single('imageUrl'), validationMiddleware, productController.addNewProduct);
 

@@ -13,14 +13,14 @@ export default class ProductModel {
     }
 
     static add(name, desc, price, imageUrl){
-        let newProduct = new ProductModel(products.length+1, name, desc, price, imageUrl);
+        var newProduct = new ProductModel(products.length+1, name, desc, price, imageUrl);
         products.push(newProduct);
     } 
-    static update(productObj){
+    static update(id,name, desc, price, imageUrl){
+        const productObj = {id,name, desc, price, imageUrl};
         const index = products.findIndex(
             (p) => p.id == productObj.id);
             products[index] = productObj;
-
     }
     static delete(id){
         const index = products.findIndex(p => p.id == id);

@@ -5,25 +5,25 @@ import { uploadFile } from '../middlewares/file-upload.middleware.js';
 
 export default class ProductController{
     getProducts(req, res){
-        let products = ProductModel.get();
+        var products = ProductModel.get();
 
-        res.render("products", {products:products})
+        res.render("products", {products, userEmail : req.session.userEmail});
 
     //    return res.sendFile(
     //     path.join(path.resolve(), 'src','views', 'products.html'),
     //    );
 
     }
-    getAddForm(req, res, next){
-       return res.render("new-product", {errorMessage : null});
+    getAddProduct(req, res, next){
+       return res.render("new-product", {errorMessage : null, userEmail : req.session.userEmail});
     }
     addNewProduct(req, res, next){
         //access data from form
         const {name, desc, price} = req.body;
         const imageUrl = 'images/' + req.file.filename;
         ProductModel.add(name, desc, price, imageUrl);
-        let products = ProductModel.get();
-        return res.render('products', {products});    
+        var products = ProductModel.get();
+        return res.render('products', {products, userEmail : req.session.userEmail});    
     }
     getUpdateProductView(req, res, next){
      
@@ -32,7 +32,7 @@ export default class ProductController{
 
            // if product exists then return view
         if(productFound){
-            res.render('update-product', {product: productFound, errorMessage: null,});
+            res.render('update-product', {product: productFound, errorMessage: null, userEmail : req.session.userEmail});
         }
            //else return errors
         else{
@@ -42,14 +42,12 @@ export default class ProductController{
 
     postUpdateProduct(req, res, next){
           //access data from form
-         
           const {id,name, desc, price} = req.body;
-         
           const imageUrl = 'images/' + req.file.filename;
 
           ProductModel.update(id,name, desc, price, imageUrl);
-          let products = ProductModel.get();
-          return res.render('products', {products}); 
+          var products = ProductModel.get();
+          return res.render('products', {products, userEmail : req.session.userEmail}); 
 
     }
 
@@ -62,7 +60,7 @@ export default class ProductController{
             return res.status(401).send('Product not found');
         }
         ProductModel.delete(id);
-        let products = ProductModel.get();
-        return res.render('products', {products}); 
+        var products = ProductModel.get();
+        return res.render('products', {products, userEmail : req.session.userEmail}); 
     }
 }
